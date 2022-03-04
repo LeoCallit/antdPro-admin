@@ -11,9 +11,11 @@ import {
   WeiboCircleOutlined,
 } from "@ant-design/icons";
 import Footer from "@/components/Footer";
-
 import { login } from "@/services/login";
-import {ERR_OK} from "@/pages/common/js/constants";
+import {ERR_OK, TOKEN_KEY, USERINFO_KEY} from "@/pages/common/js/constants";
+import {setStorage} from "@/pages/common/js/store";
+
+import type {LoginParams, LoginType} from "@/pages/user/Login/index.type";
 
 import styles from "./index.less";
 
@@ -32,21 +34,23 @@ const LoginMessage: React.FC<{
 
 const Login: React.FC = () => {
   const [userLoginState, setUserLoginState] = useState<any>({});
-  const [type, setType] = useState<string>("account");
+  const [type, setType] = useState<LoginType>("account");
 
   const intl = useIntl();
 
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async (values: LoginParams) => {
     try {
       // 登录
-      const msg = await login({ ...values, type });
-      if (msg.code === ERR_OK) {
+      const loginResult = await login({ ...values, type });
+      const {code} = loginResult;
+      if (code === ERR_OK) {
         const defaultLoginSuccessMessage = intl.formatMessage({
           id: "pages.login.success",
           defaultMessage: "登录成功！",
         });
+        setStorage(TOKEN_KEY, loginResult.data?.token);
+        setStorage(USERINFO_KEY, loginResult.data?.userinfo);
         message.success(defaultLoginSuccessMessage);
-        // await fetchUserInfo();
         /** 此方法会跳转到 redirect 参数所在的位置 */
         if (!history) return;
         const { query } = history.location;
@@ -54,9 +58,8 @@ const Login: React.FC = () => {
         history.push(redirect || "/welcome");
         return;
       }
-      // console.log(msg);
       // 如果失败去设置用户错误信息
-      setUserLoginState(msg);
+      setUserLoginState(loginResult);
     } catch (error) {
       const defaultLoginFailureMessage = intl.formatMessage({
         id: "pages.login.failure",
@@ -90,11 +93,11 @@ const Login: React.FC = () => {
             <TaobaoCircleOutlined key="TaobaoCircleOutlined" className={styles.icon} />,
             <WeiboCircleOutlined key="WeiboCircleOutlined" className={styles.icon} />,
           ]}
-          onFinish={async (values) => {
+          onFinish={async (values: LoginParams) => {
             await handleSubmit(values);
           }}
         >
-          <Tabs activeKey={type} onChange={setType}>
+          <Tabs activeKey={type} onChange={(key) => setType(key as LoginType)}>
             <Tabs.TabPane
               key="account"
               tab={intl.formatMessage({

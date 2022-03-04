@@ -1,6 +1,7 @@
 import type {Request, Response} from "express";
 import {SuccessModel, ErrorModel} from "./util";
 import {find} from "lodash";
+import type {LoginParams} from "@/pages/user/Login/index.type";
 
 export const USERS = [
   {
@@ -28,13 +29,16 @@ export const USERS = [
 ];
 
 function login(req: Request, res: Response) {
-  const {password, username} = req.body;
+  const {password, username} = req.body as LoginParams;
   const user = find(USERS, {username, password});
   if (!user) {
     res.status(500);
     return res.json(new ErrorModel(500, "账号密码错误！"));
   }
-  return res.json(new SuccessModel(user));
+  return res.json(new SuccessModel({
+    token: "",
+    userinfo: user
+  }));
 }
 
 export default {
