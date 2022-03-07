@@ -8,8 +8,8 @@ import Footer from "@/components/Footer";
 // import { currentUser as queryCurrentUser } from "./services/ant-design-pro/api";
 // import { BookOutlined, LinkOutlined } from "@ant-design/icons";
 import defaultSettings from "../config/defaultSettings";
-import {getStorage} from "@/pages/common/js/store";
-import {USERINFO_KEY} from "@/pages/common/js/constants";
+import {getStorage} from "@/common/js/store";
+import {USERINFO_KEY} from "@/common/js/constants";
 
 // const isDev = process.env.NODE_ENV === "development";
 // const loginPath = "/user/login";

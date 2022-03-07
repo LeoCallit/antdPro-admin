@@ -13,7 +13,7 @@ import {
 import useUser from "@/hooks/useUser";
 import Footer from "@/components/Footer";
 import { login } from "@/services/login";
-import {ERR_OK} from "@/pages/common/js/constants";
+import {ERR_OK} from "@/common/js/constants";
 
 import type {LoginParams, LoginType} from "@/pages/user/Login/index.type";
 

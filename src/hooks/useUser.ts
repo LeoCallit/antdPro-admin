@@ -9,8 +9,8 @@
 
 import {useModel} from "umi";
 import {useCallback} from "react";
-import {removeStorage, setStorage} from "@/pages/common/js/store";
-import {USERINFO_KEY} from "@/pages/common/js/constants";
+import {removeStorage, setStorage} from "@/common/js/store";
+import {USERINFO_KEY} from "@/common/js/constants";
 
 export default () => {
   const {setInitialState} = useModel("@@initialState");
