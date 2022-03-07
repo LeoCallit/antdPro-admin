@@ -8,4 +8,6 @@ export interface Userinfo {
   desc?: string;
   status: number;
   roles: number[];
+
+  [key: string]: any;
 }

@@ -12,12 +12,12 @@ import {
 } from "@ant-design/icons";
 import Footer from "@/components/Footer";
 import { login } from "@/services/login";
-import {ERR_OK, TOKEN_KEY, USERINFO_KEY} from "@/pages/common/js/constants";
-import {setStorage} from "@/pages/common/js/store";
+import {ERR_OK} from "@/pages/common/js/constants";
 
 import type {LoginParams, LoginType} from "@/pages/user/Login/index.type";
 
 import styles from "./index.less";
+import useUser from "@/hooks/useUser";
 
 const LoginMessage: React.FC<{
   content: string;
@@ -35,6 +35,7 @@ const LoginMessage: React.FC<{
 const Login: React.FC = () => {
   const [userLoginState, setUserLoginState] = useState<any>({});
   const [type, setType] = useState<LoginType>("account");
+  const {cacheUserRelated} = useUser();
 
   const intl = useIntl();
 
@@ -48,8 +49,7 @@ const Login: React.FC = () => {
           id: "pages.login.success",
           defaultMessage: "登录成功！",
         });
-        setStorage(TOKEN_KEY, loginResult.data?.token);
-        setStorage(USERINFO_KEY, loginResult.data?.userinfo);
+        cacheUserRelated(loginResult.data!.token, loginResult.data!.userinfo);
         message.success(defaultLoginSuccessMessage);
         /** 此方法会跳转到 redirect 参数所在的位置 */
         if (!history) return;
