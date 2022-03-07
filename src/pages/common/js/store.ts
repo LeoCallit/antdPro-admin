@@ -7,7 +7,7 @@ interface StorageVal {
 
 export function setStorage(key: string, val: any, ex = 1.8e6) {
   const setVal: StorageVal = {
-    expires: ex,
+    expires: Date.now() + ex,
     value: val,
   };
   storage.set(key, setVal);
