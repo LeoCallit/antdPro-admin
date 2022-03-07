@@ -1,48 +1,34 @@
-import {useCallback, useMemo} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {createUserinfoAction} from "@/models/createActions";
-import {setStorage, removeStorage} from "@/pages/common/js/store";
-import {TOKEN_KEY, USERINFO_KEY} from "@/pages/common/js/constants";
+// import {useCallback, useMemo} from "react";
+// import {useDispatch, useSelector} from "umi";
+// import {createUserinfoAction} from "@/models/createActions";
+// import {setStorage, removeStorage} from "@/pages/common/js/store";
+// import {TOKEN_KEY, USERINFO_KEY} from "@/pages/common/js/constants";
+//
+// import type {RootModelState} from "@/models/index.type";
+// import type { Dispatch} from "umi";
 
-import type {Userinfo} from "@/pages/index.type";
-import type {RootModelState} from "@/models/index.type";
+import {useModel} from "umi";
+import {useCallback} from "react";
+import {removeStorage, setStorage} from "@/pages/common/js/store";
+import {USERINFO_KEY} from "@/pages/common/js/constants";
 
 export default () => {
-  const dispatch = useDispatch();
-  const currentUserinfo = useSelector((state: RootModelState) => state.userModel.userinfo);
+  const {setInitialState} = useModel("@@initialState");
 
-  const currentUser = useMemo(() => {
-    return currentUserinfo;
-  }, [currentUserinfo]);
-
-  const updateUserinfo = useCallback((payload: Userinfo) => {
-    if (payload) {
-      dispatch(createUserinfoAction(payload));
-      setStorage(USERINFO_KEY, payload);
-    }
-  }, [currentUserinfo]);
-
-  const updateToken = useCallback((token: string) => {
-    if (token) {
-      setStorage(USERINFO_KEY, token);
+  const setCurrentUserinfo = useCallback((userinfo: API.Userinfo) => {
+    if (userinfo) {
+      setInitialState((s) => ({...s, currentUser: userinfo}));
+      setStorage(USERINFO_KEY, userinfo);
     }
   }, []);
 
   const logout = useCallback(() => {
+    setInitialState((s) => ({...s, currentUser: undefined}));
     removeStorage(USERINFO_KEY);
-    removeStorage(TOKEN_KEY);
-  }, []);
-
-  const cacheUserRelated = useCallback((token: string, userinfo: Userinfo) => {
-    updateUserinfo(userinfo);
-    updateToken(token);
   }, []);
 
   return {
-    currentUser,
-    updateUserinfo,
-    updateToken,
-    logout,
-    cacheUserRelated,
+    setCurrentUserinfo,
+    logout
   };
 };

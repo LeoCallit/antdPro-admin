@@ -15,6 +15,8 @@ interface User{
 
 declare namespace API {
   // 接口的返回值类型
+  export type Userinfo = User;
+
   export interface Response<T=any> {
     code: number; // 状态
     data?: T; // 返回的数据

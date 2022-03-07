@@ -2,10 +2,9 @@ import React from "react";
 import { PageContainer } from "@ant-design/pro-layout";
 import { Card, Alert, Typography } from "antd";
 import { useIntl, FormattedMessage } from "umi";
-// import {useSelector} from "react-redux";
+import {useModel} from "umi";
+
 import styles from "./Welcome.less";
-import useUser from "@/hooks/useUser";
-// import type {RootModelState} from "@/models/index.type";
 
 const CodePreview: React.FC = ({ children }) => (
   <pre className={styles.pre}>
@@ -17,7 +16,7 @@ const CodePreview: React.FC = ({ children }) => (
 
 const Welcome: React.FC = () => {
   const intl = useIntl();
-  const {currentUser} = useUser();
+  const { initialState } = useModel("@@initialState");
 
   return (
     <PageContainer>
@@ -63,7 +62,7 @@ const Welcome: React.FC = () => {
         </Typography.Text>
         <CodePreview>yarn add @ant-design/pro-layout</CodePreview>
         {
-          JSON.stringify(currentUser)
+          JSON.stringify(initialState?.currentUser)
         }
       </Card>
     </PageContainer>

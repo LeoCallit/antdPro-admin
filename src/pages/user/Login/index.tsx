@@ -10,6 +10,7 @@ import {
   UserOutlined,
   WeiboCircleOutlined,
 } from "@ant-design/icons";
+import useUser from "@/hooks/useUser";
 import Footer from "@/components/Footer";
 import { login } from "@/services/login";
 import {ERR_OK} from "@/pages/common/js/constants";
@@ -17,7 +18,6 @@ import {ERR_OK} from "@/pages/common/js/constants";
 import type {LoginParams, LoginType} from "@/pages/user/Login/index.type";
 
 import styles from "./index.less";
-import useUser from "@/hooks/useUser";
 
 const LoginMessage: React.FC<{
   content: string;
@@ -35,7 +35,7 @@ const LoginMessage: React.FC<{
 const Login: React.FC = () => {
   const [userLoginState, setUserLoginState] = useState<any>({});
   const [type, setType] = useState<LoginType>("account");
-  const {cacheUserRelated} = useUser();
+  const {setCurrentUserinfo} = useUser();
 
   const intl = useIntl();
 
@@ -49,7 +49,7 @@ const Login: React.FC = () => {
           id: "pages.login.success",
           defaultMessage: "登录成功！",
         });
-        cacheUserRelated(loginResult.data!.token, loginResult.data!.userinfo);
+        setCurrentUserinfo(loginResult.data!.userinfo);
         message.success(defaultLoginSuccessMessage);
         /** 此方法会跳转到 redirect 参数所在的位置 */
         if (!history) return;

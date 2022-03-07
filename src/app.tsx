@@ -8,6 +8,8 @@ import Footer from "@/components/Footer";
 // import { currentUser as queryCurrentUser } from "./services/ant-design-pro/api";
 // import { BookOutlined, LinkOutlined } from "@ant-design/icons";
 import defaultSettings from "../config/defaultSettings";
+import {getStorage} from "@/pages/common/js/store";
+import {USERINFO_KEY} from "@/pages/common/js/constants";
 
 // const isDev = process.env.NODE_ENV === "development";
 // const loginPath = "/user/login";
@@ -22,7 +24,7 @@ export const initialStateConfig = {
  * */
 export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
-  // currentUser?: API.CurrentUser;
+  currentUser?: API.Userinfo;
   loading?: boolean;
   // fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
 }> {
@@ -46,6 +48,7 @@ export async function getInitialState(): Promise<{
   // }
   return {
     // fetchUserInfo,
+    currentUser: getStorage(USERINFO_KEY, {}) as API.Userinfo || {},
     settings: defaultSettings,
   };
 }
@@ -56,7 +59,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
     waterMarkProps: {
-      // content: initialState?.currentUser?.name,
+      content: initialState?.currentUser?.username,
     },
     footerRender: () => <Footer />,
     onPageChange: () => {

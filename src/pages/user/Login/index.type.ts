@@ -1,5 +1,3 @@
-import type {Userinfo} from "@/pages/index.type";
-
 export type LoginType = "mobile" | "account";
 
 export interface LoginParams {
@@ -11,5 +9,5 @@ export interface LoginParams {
 
 export type LoginResult = API.Response<{
   token: string;
-  userinfo: Userinfo
+  userinfo: API.Userinfo
 }>;
