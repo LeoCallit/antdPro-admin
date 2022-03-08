@@ -22,4 +22,15 @@ declare namespace API {
     data?: T; // 返回的数据
     message?: string; // 返回的消息
   }
+
+  export type OperateType = "create" | "edit" | "see"; // 弹窗操作类型
+
+  export interface BaseEditParams {
+    id: number;
+  }
+
+  interface BasePageParams {
+    current: number; // 当前第几页
+    pageSize: number; // 每页条数
+  }
 }
