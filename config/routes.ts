@@ -29,6 +29,19 @@
     redirect: '/welcome',
   },
   {
+    path: '/system',
+    name: 'system',
+    icon: 'smile',
+    routes: [
+      {
+        name: 'user',
+        icon: 'table',
+        path: '/system/users',
+        component: './System/UserAdmin',
+      },
+    ]
+  },
+  {
     component: './404',
   },
 ];
