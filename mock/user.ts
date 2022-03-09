@@ -1,5 +1,5 @@
 import type {Request, Response} from "express";
-import {SuccessModel, ErrorModel} from "./util";
+import {SuccessModel, ErrorModel, filterQueryData} from "./util";
 import {find, filter} from "lodash";
 
 import type {LoginParams} from "@/pages/user/Login/index.type";
@@ -55,7 +55,11 @@ function login(req: Request, res: Response) {
 }
 
 function getUsersList(req: Request, res: Response) {
-  return res.json(new SuccessModel(USERS));
+  const {username, phone, email, avatar, desc, status} = req.query;
+  const filterData = filterQueryData<Omit<API.Userinfo, "id" | "password" | "roles">>(USERS, {
+    username, phone, email, avatar, desc, status
+  });
+  return res.json(new SuccessModel(filterData));
 }
 
 function createUser(req: Request, res: Response) {

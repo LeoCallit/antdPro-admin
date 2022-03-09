@@ -1,3 +1,5 @@
+import { filter } from "lodash";
+
 interface ResponseModel {
   data?: any;
   code: number;
@@ -27,4 +29,17 @@ export class SuccessModel extends BaseResponseModel {
 }
 
 export class ErrorModel extends BaseResponseModel {
+}
+
+export function filterQueryData<T>(data: T[], obj: any) {
+  const filterObj: any = {};
+  Object.keys(obj).forEach((key: string) => {
+    if (key === "status" && obj[key]) {
+      obj[key] = Number(obj[key]);
+    }
+    if (obj[key]) {
+      filterObj[key] = obj[key];
+    }
+  });
+  return filter(data, filterObj);
 }
