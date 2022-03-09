@@ -39,6 +39,18 @@
         path: '/system/users',
         component: './System/UserAdmin',
       },
+      {
+        name: 'role',
+        icon: 'table',
+        path: '/system/role',
+        component: './System/RoleAdmin',
+      },
+      {
+        name: 'menu',
+        icon: 'table',
+        path: '/system/menu',
+        component: './System/MenuAdmin',
+      },
     ]
   },
   {
