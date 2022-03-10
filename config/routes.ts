@@ -51,6 +51,12 @@
         path: '/system/menu',
         component: './System/MenuAdmin',
       },
+      {
+        name: 'role',
+        icon: 'table',
+        path: '/system/role',
+        component: './System/RoleAdmin',
+      },
     ]
   },
   {
